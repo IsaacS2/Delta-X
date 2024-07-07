@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class BallAbilities : MonoBehaviour
 {
     public Rigidbody2D _rb;
