@@ -1,18 +1,25 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class BallAbilities : MonoBehaviour
 {
     public Rigidbody2D _rb;
 
+
+    [SerializeField] private int _attackBuffer = 5;
     [SerializeField] private float _moveSpeed = 3;
 
-    private Vector2 _moveDirection;
+    [SerializeField] private Vector2 _moveDirection;
 
-    public InputActionReference move;
-    public InputActionReference fire;
+    [SerializeField] private GameObject _explosion;
 
-    // Update is called once per frame
+    [SerializeField] public InputActionReference move;
+    [SerializeField] public InputActionReference fire;
+
+    public static event EventHandler OnEndZoneEmpty;
+
     void Update()
     {
         _moveDirection = move.action.ReadValue<Vector2>();
@@ -35,8 +42,8 @@ public class BallAbilities : MonoBehaviour
         fire.action.started -= Fire;
     }
 
-    private void Fire(InputAction.CallbackContext obj)
+    private void Fire(InputAction.CallbackContext obj)  // create explosion object
     {
-        Debug.Log("Fired");
+        Instantiate(_explosion, _rb.transform);
     }
 }
