@@ -100,9 +100,8 @@ public class Destructible : MonoBehaviour
 
             // disable collider so neighbors won't register this object when finding other neighbors
             GetComponent<Collider2D>().enabled = false;
-            Destroy(gameObject);
 
-            //this.CheckNeighbors(ref destroyableObjects);
+            this.CheckNeighbors(ref destroyableObjects);
 
             foreach (GameObject destroyableObject in destroyableObjects)
             {
@@ -123,6 +122,9 @@ public class Destructible : MonoBehaviour
         // must check all colliders for neighboring destructible blocks
         int i = 0;
         Debug.Log("Colliders nearby: " + neighborColliders.Length);
+
+        List<GameObject> absoluteNeighbors = new List<GameObject>();
+
         while (i < neighborColliders.Length)
         {
             if (neighborColliders[i].gameObject.CompareTag("Destructible") &&
@@ -133,6 +135,7 @@ public class Destructible : MonoBehaviour
                 if (!destroyableObjects.Contains(neighbor))
                 {  // Gameobject must be marked for destruction
                     destroyableObjects.Add(neighbor);
+                    absoluteNeighbors.Add(neighbor);
                     neighbor.GetComponent<Collider2D>().enabled = false;
                 }
             }
@@ -140,9 +143,11 @@ public class Destructible : MonoBehaviour
             i++;
         }
 
-        foreach (GameObject secondaryNeighbor in destroyableObjects)
+        foreach (GameObject absNeighbor in absoluteNeighbors)
         {
-            secondaryNeighbor.GetComponent<Destructible>().CheckNeighbors(ref destroyableObjects);
+            absNeighbor.GetComponent<Destructible>().CheckNeighbors(ref destroyableObjects);
         }
+
+        absoluteNeighbors = null;
     }
 }
