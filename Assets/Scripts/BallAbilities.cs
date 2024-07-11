@@ -7,7 +7,6 @@ public class BallAbilities : MonoBehaviour
 {
     public Rigidbody2D _rb;
 
-
     [SerializeField] private int _attackBuffer = 5;
     [SerializeField] private float _moveSpeed = 3;
 
@@ -18,7 +17,7 @@ public class BallAbilities : MonoBehaviour
     [SerializeField] public InputActionReference move;
     [SerializeField] public InputActionReference fire;
 
-    public static event EventHandler OnEndZoneEmpty;
+    //public static event EventHandler OnEndZoneEmpty;
 
     void Update()
     {
@@ -29,7 +28,6 @@ public class BallAbilities : MonoBehaviour
     {
         _rb.velocity = new Vector2(_moveDirection.x * _moveSpeed, 
             _moveDirection.y * _moveSpeed);
-        Debug.Log(_rb.velocity);
     }
 
     private void OnEnable()
