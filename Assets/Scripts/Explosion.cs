@@ -6,12 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private float timeActive = 1;
+    [SerializeField] private float timeActive = 0.5f;
 
     private BoxCollider2D _bc;
     private GameObject _player;
-
-    //public static event EventHandler<> OnTileContact;
 
     private void OnEnable()
     {
