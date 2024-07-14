@@ -46,7 +46,7 @@ public class BallAbilities : MonoBehaviour
         // checking for attack buffer
         if (_attackBuff > 0) {
             _attackBuff -= Time.deltaTime;
-            if (_attackLag <= 0)
+            if (_attackLag <= 0 && _fuel.GetFuel() + _attackEnergyCost > _attackEnergyCost)
             {
                 Explosion();
             }
@@ -82,7 +82,7 @@ public class BallAbilities : MonoBehaviour
     {
         if (_attackLag <= 0) 
         {
-            Explosion();
+            if (_fuel.GetFuel() + _attackEnergyCost > _attackEnergyCost) { Explosion(); }
         }
         else { _attackBuff = _attackBufferTime; }
     }

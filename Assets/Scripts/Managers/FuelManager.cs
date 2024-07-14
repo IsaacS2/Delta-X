@@ -37,6 +37,11 @@ public class FuelManager : MonoBehaviour
         }
     }
 
+    public float GetFuel()
+    {
+        return _fuel;
+    }
+
     public float GetFuelPercent()
     {
         return _fuel / _maxFuel;
