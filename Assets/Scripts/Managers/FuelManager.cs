@@ -34,6 +34,7 @@ public class FuelManager : MonoBehaviour
         if (_fuelCountdown)
         {
             _fuel -= Time.deltaTime * 2;
+            _fuel = Math.Max(_fuel, 0);
         }
     }
 

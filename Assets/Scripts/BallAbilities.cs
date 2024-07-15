@@ -28,15 +28,16 @@ public class BallAbilities : MonoBehaviour
 
     [SerializeField] public InputActionReference move;
     [SerializeField] public InputActionReference fire;
-
+    
     private FuelManager _fuel;
+    private SpeedManager _speed;
 
-    //public static event EventHandler OnEndZoneEmpty;
     private void Start()
     {
         _sprRend = GetComponent<SpriteRenderer>();
         _rb = GetComponent<Rigidbody2D>();
         _fuel = GameManager.Instance.GetFuel;
+        _speed = GameManager.Instance.GetSpeed;
     }
 
     void Update()
@@ -65,7 +66,33 @@ public class BallAbilities : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb.velocity = new Vector2(_moveDirection.x * _moveSpeed, _moveDirection.y * _moveSpeed);
+        Vector2 prevVelo = _rb.velocity;
+        float xVelo = _moveDirection.x * _moveSpeed;
+        float yVelo = _moveDirection.y * _moveSpeed;
+        
+        _rb.velocity = new Vector2(xVelo, yVelo);
+
+        //
+        // Speed increase/decrease calculation for speed manager
+        //
+        if (_rb.velocity == Vector2.zero)
+        {
+            _speed.ChangeSpeedIncrement(-1);
+        }
+        else if (_rb.velocity == prevVelo)  // if velocity is the same, either player is moving straight
+        {
+            _speed.ChangeSpeedIncrement(1);
+        }
+        else  // player is turning, reduce speed minimally
+        {
+            _speed.ChangeSpeedIncrement(-0.1f);
+        }
+
+        /*if ((xVeloSquared >= Math.Pow(_moveSpeed, 2)) || (yVeloSquared >= Math.Pow(_moveSpeed, 2)))  // player going straight forward, increase speed
+        {
+            
+        }*/
+        Debug.Log(_rb.velocity);
     }
 
     private void OnEnable()
