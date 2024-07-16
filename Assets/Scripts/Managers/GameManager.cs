@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _fuelManager.enabled = true;
+        /*_fuelManager.enabled = true;
         _speedManager.enabled = true;
-        _timerManager.enabled = true;
+        _timerManager.enabled = true;*/
     }
 
     public FuelManager GetFuel => _fuelManager;

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2357247813300402306}
   - component: {fileID: 8041348069389083810}
-  - component: {fileID: 4797885743867961681}
   - component: {fileID: 1711754628814103424}
+  - component: {fileID: 5651838923306745512}
   m_Layer: 3
-  m_Name: LeftGate
+  m_Name: Gate
   m_TagString: Destructible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1856903119, guid: 6cba630b895d63b48b3217c0ed1d120b, type: 3}
+  m_Sprite: {fileID: -1833285539, guid: 6cba630b895d63b48b3217c0ed1d120b, type: 3}
   m_Color: {r: 1, g: 0, b: 0.77632, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +86,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &4797885743867961681
+--- !u!114 &1711754628814103424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346370422623254416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979b22be3d36ff04d901515742e9eb05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!60 &5651838923306745512
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,24 +146,7 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -0.21875, y: 0.21875}
-      - {x: -0.21875, y: -0.21875}
-      - {x: 0.21875, y: -0.21875}
-      - {x: 0.21875, y: -0.09375}
-      - {x: -0.09375, y: -0.09375}
-      - {x: -0.09375, y: 0.21875}
+      - {x: -0.21875, y: 0.09375}
+      - {x: 0.21875, y: 0.09375}
+      - {x: 0.21875, y: 0.21875}
   m_UseDelaunayMesh: 0
---- !u!114 &1711754628814103424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 346370422623254416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 979b22be3d36ff04d901515742e9eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 8

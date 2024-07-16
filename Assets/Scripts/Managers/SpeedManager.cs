@@ -9,11 +9,13 @@ public class SpeedManager : MonoBehaviour
     private SpriteRenderer[] _starFill;
 
     private BallAbilities player;
-    private SpriteRenderer currentStar;
-    private float currentSpeedIncrement = 0;
-    private float currentSpeedMultiple;
-    private float maxSpriteWidth;
-    private int currentStarNumber = 0;
+    private SpriteRenderer _currentStar;
+    private float _currentSpeedIncrement = 0;
+    private float _currentSpeedMultiple;
+    private float _maxSpriteWidth;
+    private int _currentStarNumber = 0;
+
+    public event EventHandler<int> OnSpeedChange;  // listen to player's speed changes with its event handler
 
     public void OnEnable()
     {
@@ -27,48 +29,42 @@ public class SpeedManager : MonoBehaviour
 
         // no need for parent gameObjects
         _stars = null;
-
-        // listen to player's speed changes with its event handler
-        /*if (GameObject.FindGameObjectWithTag("Player") != null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<BallAbilities>();
-        }*/
     }
 
     private void Start()
     {
-        currentStar = _starFill[0];
-        maxSpriteWidth = currentStar.size.y;  // getting height for width since the sprite is 1:1 ratio
-        currentSpeedMultiple = maxSpriteWidth / 6;
+        _currentStar = _starFill[0];
+        _maxSpriteWidth = _currentStar.size.y;  // getting height for width since the sprite is 1:1 ratio
+        _currentSpeedMultiple = _maxSpriteWidth / 5;
     }
 
     void Update()
     {
-        currentStar.size = new Vector2(Math.Min(maxSpriteWidth, currentStar.size.x + (currentSpeedIncrement * currentSpeedMultiple * Time.deltaTime)),
-            maxSpriteWidth);
-        if (currentStar.size.x == maxSpriteWidth)
+        _currentStar.size = new Vector2(Math.Min(_maxSpriteWidth, _currentStar.size.x + (_currentSpeedIncrement * _currentSpeedMultiple * Time.deltaTime)),
+            _maxSpriteWidth);
+        if (_currentStar.size.x == _maxSpriteWidth)
         {
-            if (currentStarNumber < _starFill.Length - 1)  // time to increase player speed
+            if (_currentStarNumber < _starFill.Length - 1)  // time to increase player speed
             {
-                ++currentStarNumber;
-                currentStar = _starFill[currentStarNumber];
+                ++_currentStarNumber;
+                _currentStar = _starFill[_currentStarNumber];
+                OnSpeedChange?.Invoke(this, _currentStarNumber);
             }
         }
-        else if (currentStar.size.x < 0)
+        else if (_currentStar.size.x < 0)
         {
-            currentStar.size = Vector2.zero;
-            if (currentStarNumber > 0)  // time to decrease player speed
+            _currentStar.size = Vector2.zero;
+            if (_currentStarNumber > 0)  // time to decrease player speed
             {
-                --currentStarNumber;
-                currentStar = _starFill[currentStarNumber];
+                --_currentStarNumber;
+                _currentStar = _starFill[_currentStarNumber];
+                OnSpeedChange?.Invoke(this, _currentStarNumber);
             }
         }
     }
 
     public void ChangeSpeedIncrement(float newSpeed)
     {
-        currentSpeedIncrement = newSpeed;
+        _currentSpeedIncrement = newSpeed;
     }
-
-
 }

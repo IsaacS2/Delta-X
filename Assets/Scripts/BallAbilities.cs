@@ -10,18 +10,20 @@ public class BallAbilities : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private SpriteRenderer _sprRend;
-
     private bool _attackInput;
+
     [SerializeField] private float _attackBufferTime = 0.1f;
     [SerializeField] private float _attackEndLagTime = 0.75f;
     [SerializeField] private int _attackEnergyCost = 4;
     [SerializeField] private int _damageEnergyCost = 8;
-    [SerializeField] private float _moveSpeed = 3;
+    private float _moveSpeed;
 
     private float _attackBuff;
     private float _attackLag;
     private Vector2 _moveDirection;
 
+    [SerializeField] private float _speedInc;
+    [SerializeField] private float[] _speeds;
     [SerializeField] private GameObject _explosion;
     [SerializeField] private Color _noPowerColor;
     [SerializeField] private Color _damagedColor;
@@ -32,12 +34,26 @@ public class BallAbilities : MonoBehaviour
     private FuelManager _fuel;
     private SpeedManager _speed;
 
+    private void OnEnable()
+    {
+        fire.action.started += Fire;
+        GameManager.Instance.GetSpeed.OnSpeedChange += ChangeSpeed;
+    }
+
+    private void OnDisable()
+    {
+        fire.action.started -= Fire;
+        GameManager.Instance.GetSpeed.OnSpeedChange -= ChangeSpeed;
+    }
+
+
     private void Start()
     {
         _sprRend = GetComponent<SpriteRenderer>();
         _rb = GetComponent<Rigidbody2D>();
         _fuel = GameManager.Instance.GetFuel;
         _speed = GameManager.Instance.GetSpeed;
+        _moveSpeed = (_speeds.Length == 0) ? 5 : _speeds[0];
     }
 
     void Update()
@@ -63,7 +79,6 @@ public class BallAbilities : MonoBehaviour
             }
         }
     }
-
     private void FixedUpdate()
     {
         Vector2 prevVelo = _rb.velocity;
@@ -77,7 +92,7 @@ public class BallAbilities : MonoBehaviour
         //
         if (_rb.velocity == Vector2.zero)
         {
-            _speed.ChangeSpeedIncrement(-1);
+            _speed.ChangeSpeedIncrement(-2);
         }
         else if (_rb.velocity == prevVelo)  // if velocity is the same, either player is moving straight
         {
@@ -95,16 +110,6 @@ public class BallAbilities : MonoBehaviour
         Debug.Log(_rb.velocity);
     }
 
-    private void OnEnable()
-    {
-        fire.action.started += Fire;
-    }
-
-    private void OnDisable()
-    {
-        fire.action.started -= Fire;
-    }
-
     private void Fire(InputAction.CallbackContext obj)  // create explosion object
     {
         if (_attackLag <= 0) 
@@ -117,9 +122,15 @@ public class BallAbilities : MonoBehaviour
     private void Explosion()
     {
         Instantiate(_explosion, _rb.transform);
-        _attackLag = _attackEndLagTime;
+        _attackLag = _attackEndLagTime;  // add end lag that reduces attack spamming
         _attackBuff = 0;
         _sprRend.color = _noPowerColor;
-        _fuel.FuelDepletion(_attackEnergyCost);
+        _fuel.FuelDepletion(_attackEnergyCost);  // remove fuel after attack
+    }
+
+    public void ChangeSpeed(object sender, int speedLevelIndex)
+    {
+        _moveSpeed = _speeds[Math.Max(0, Math.Min(speedLevelIndex, _speeds.Length - 1))];
+        Debug.Log("New Speed: " + _moveSpeed);
     }
 }
