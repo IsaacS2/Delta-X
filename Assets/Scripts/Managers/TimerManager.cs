@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TimerManager : MonoBehaviour
 {
     private bool _gameStarted;
-    private float _gameStartTime;
+    private float _gameStartTime, _timeSinceStart;
+    [SerializeField] private TMP_Text _timeText;
     [SerializeField] private float _gameStartTimer = 0;
 
     public event EventHandler<int> OnGameplayStart;
@@ -27,9 +29,10 @@ public class TimerManager : MonoBehaviour
                 OnGameplayStart?.Invoke(this, 1000);
             }
         }
-        else
+        else if (_gameStarted)
         {
-            
+            _timeSinceStart += Time.deltaTime;
+            _timeText.text = (Mathf.Round(_timeSinceStart * 100.0f) * 0.01f).ToString();
         }
     }
 }

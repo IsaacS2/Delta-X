@@ -101,6 +101,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 8
+  _pointValue: 0
 --- !u!60 &5651838923306745512
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class Explosion : MonoBehaviour
 {
     [SerializeField] private float timeActive = 0.5f;
@@ -25,12 +24,20 @@ public class Explosion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = _player.transform.position;
+        if (_player != null) { transform.position = _player.transform.position; }
 
         timeActive -= Time.deltaTime;
         if (timeActive <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void ReturnEnergy()
+    {
+        if (_player.GetComponent<BallAbilities>() != null)
+        {
+            _player.GetComponent<BallAbilities>().RefundAttackEnergy();
         }
     }
 }

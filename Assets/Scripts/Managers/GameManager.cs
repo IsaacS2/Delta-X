@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FuelManager _fuelManager;
     [SerializeField] private SpeedManager _speedManager;
     [SerializeField] private TimerManager _timerManager;
+    [SerializeField] private ScoreManager _scoreManager;
 
-    public static event EventHandler OnLevelStart;
+    //public static event EventHandler OnLevelStart;
 
     private void Awake()
     {
@@ -25,14 +26,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnEnable()
-    {
-        /*_fuelManager.enabled = true;
-        _speedManager.enabled = true;
-        _timerManager.enabled = true;*/
-    }
-
     public FuelManager GetFuel => _fuelManager;
     public SpeedManager GetSpeed => _speedManager;
     public TimerManager GetTimer => _timerManager;
+    public ScoreManager GetScore => _scoreManager;
 }

@@ -10,7 +10,7 @@ public class FuelManager : MonoBehaviour
         
     private float _fuel;
     private bool _fuelCountdown;
-    
+    public event EventHandler OnFuelEmpty;
 
     private void OnEnable()
     {
@@ -34,7 +34,10 @@ public class FuelManager : MonoBehaviour
         if (_fuelCountdown)
         {
             _fuel -= Time.deltaTime * 2;
-            _fuel = Math.Max(_fuel, 0);
+            if (_fuel <= 0)
+            {
+                OnEmptyingFuel();
+            }
         }
     }
 
@@ -51,6 +54,10 @@ public class FuelManager : MonoBehaviour
     public void FuelDepletion (int depletedFuel) 
     {
         _fuel -= depletedFuel;
+        if (_fuel <= 0)
+        {
+            OnEmptyingFuel();
+        }
     }
 
     public void Refuel(object sender, int fuelAmount)
@@ -63,8 +70,26 @@ public class FuelManager : MonoBehaviour
         }
     }
 
+    public void Refuel(int fuelAmount)
+    {
+        _fuel += fuelAmount;
+        if (_fuel >= _maxFuel)
+        {
+            int overflow = (int)Mathf.Round(_fuel - _maxFuel);
+            GameManager.Instance.GetScore.AddScore(overflow);
+            _fuel = _maxFuel;
+        }
+    }
+
     private void setCountdown(bool counting)
     {
         _fuelCountdown = counting;
+    }
+
+    private void OnEmptyingFuel()
+    {
+        _fuel = Math.Max(_fuel, 0);
+        _fuelCountdown = false;
+        OnFuelEmpty?.Invoke(this, null);
     }
 }
