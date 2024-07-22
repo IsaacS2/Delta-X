@@ -45,8 +45,7 @@ public class Destructible : MonoBehaviour
 
         // must check all colliders for neighboring destructible blocks
         int i = 0;
-        Debug.Log("Colliders nearby: " + neighborColliders.Length);
-
+        
         List<GameObject> absoluteNeighbors = new List<GameObject>();
 
         while (i < neighborColliders.Length)

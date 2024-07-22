@@ -14,18 +14,20 @@ public class FuelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.GetTimer.OnGameplayStart += Refuel;
+        //GameManager.Instance.GetTimer.OnGameplayStart += Refuel;
+
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.GetTimer.OnGameplayStart -= Refuel;
+        //GameManager.Instance.GetTimer.OnGameplayStart -= Refuel;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _fuel = _maxFuel;
+        Refuel(1000);
     }
 
     // Update is called once per frame
@@ -73,7 +75,13 @@ public class FuelManager : MonoBehaviour
     public void Refuel(int fuelAmount)
     {
         _fuel += fuelAmount;
-        if (_fuel >= _maxFuel)
+
+        if (fuelAmount > _maxFuel && !_fuelCountdown)
+        {
+            setCountdown(true);
+            _fuel = _maxFuel;
+        }
+        else if (_fuel >= _maxFuel)
         {
             int overflow = (int)Mathf.Round(_fuel - _maxFuel);
             GameManager.Instance.GetScore.AddScore(overflow);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,12 +23,15 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-
-        DontDestroyOnLoad(gameObject);
     }
 
     public FuelManager GetFuel => _fuelManager;
     public SpeedManager GetSpeed => _speedManager;
     public TimerManager GetTimer => _timerManager;
     public ScoreManager GetScore => _scoreManager;
+
+    public void GetNewScore(int newScore)
+    {
+        ScoreRun.Instance.GetNewScore(newScore);
+    }
 }

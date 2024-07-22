@@ -16,6 +16,7 @@ public class BallAbilities : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sprRend;
     private FuelManager _fuel;
+    private ScoreManager _score;
     private SpeedManager _speed;
     private ParticleSystem _particles;
 
@@ -53,6 +54,7 @@ public class BallAbilities : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _particles = GetComponent<ParticleSystem>();
         _fuel = GameManager.Instance.GetFuel;
+        _score = GameManager.Instance.GetScore;
         _speed = GameManager.Instance.GetSpeed;
         _moveSpeed = (_speeds.Length == 0) ? 5 : _speeds[0];  // initialize player speed with first speed val or 5 (default)
     }
@@ -61,7 +63,7 @@ public class BallAbilities : MonoBehaviour
     {
         if (_dead && _particles.isStopped)
         {
-            
+            GameManager.Instance.GetNewScore(_score.GetScore());
         }
 
         _moveDirection = move.action.ReadValue<Vector2>();

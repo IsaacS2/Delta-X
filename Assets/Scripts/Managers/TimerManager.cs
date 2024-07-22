@@ -7,7 +7,7 @@ using TMPro;
 public class TimerManager : MonoBehaviour
 {
     private bool _gameStarted;
-    private float _gameStartTime, _timeSinceStart;
+    private float _gameStartTime, _timeSinceStart = 0;
     [SerializeField] private TMP_Text _timeText;
     [SerializeField] private float _gameStartTimer = 0;
 
@@ -34,5 +34,10 @@ public class TimerManager : MonoBehaviour
             _timeSinceStart += Time.deltaTime;
             _timeText.text = (Mathf.Round(_timeSinceStart * 100.0f) * 0.01f).ToString();
         }
+    }
+
+    public float GetTime()
+    {
+        return _timeSinceStart;
     }
 }

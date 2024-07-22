@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using TMPro;
 
 //
 // Thanks to CodeFriend for JSON with Unity tutorial:
@@ -13,10 +14,24 @@ using UnityEngine;
 public class LeaderBoard : MonoBehaviour
 {
     [SerializeField] GameObject ScoreList;
+    [SerializeField] private TMP_Text _leaderboardText;
     [SerializeField] public InputActionReference fire;
     public Scores scoreboard = new Scores();
 
-    private void OnEnable()
+    private void Start()
+    {
+        foreach (KeyValuePair<int, List<string>> scoreItem in ScoreRun.Instance.scores)
+        {
+            _leaderboardText.text += scoreItem.Key;
+            foreach (string name in scoreItem.Value)
+            {
+                _leaderboardText.text += name + ", ";
+            }
+            _leaderboardText.text += "/n";
+        }
+    }
+
+    /*private void OnEnable()
     {
         fire.action.started += SaveToJson;
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -73,7 +88,7 @@ public class LeaderBoard : MonoBehaviour
 
         scoreboard = JsonUtility.FromJson<Scores>(scoreData);
         Debug.Log("Paste Good");
-    }
+    }*/
 }
 
 [System.Serializable]

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerElectricity
   - Destructible
+  - Goal
   layers:
   - Default
   - TransparentFX

@@ -29,4 +29,9 @@ public class ScoreManager : MonoBehaviour
         _totalScore += pointVal;
         _scoreText.text = _totalScore.ToString();
     }
+
+    public int GetScore()
+    {
+        return _totalScore;
+    }
 }
